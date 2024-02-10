@@ -5,5 +5,5 @@ from .routers import google_maps_router, openai_router
 app = FastAPI()
 
 #Include the routers from the routers folder
-app.include_router(openai_router.router, prefix="/openai", tags=["OpenAI"])
-app.include_router(google_maps_router.router, prefix="/google-maps", tags=["Google Maps"])
+app.include_router(openai_router.router, prefix="/api/openai", tags=["OpenAI"])
+app.include_router(google_maps_router.router, prefix="/api/google-maps", tags=["Google Maps"])
