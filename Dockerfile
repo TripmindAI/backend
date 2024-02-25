@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 80
 
 # Define environment variable
-ENV APP_NAME Tripmind-Backend
+ENV APP_NAME TripmindAPI
 
 # Run app.py when the container launches
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "80"]
