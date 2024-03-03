@@ -1,7 +1,7 @@
 # Description: This file contains the service for the OpenAI chat API.
 from httpx import AsyncClient
 import json
-from ..models import RecommendationParameters
+from ..schemas import RecommendationParameters
 
 
 OPENAI_API_KEY = "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"
