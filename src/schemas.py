@@ -11,7 +11,7 @@ class LocationBase(BaseModel):
     name: str
 
 class LocationCreate(LocationBase):
-    pass
+    description: str = ""
 
 class Location(LocationBase):
     id: int
