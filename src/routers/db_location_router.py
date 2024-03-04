@@ -16,7 +16,7 @@ def get_db():
         db.close()
 
 
-@router.post("/locations/", response_model=schemas.Location)
+@router.post("/add-location/", response_model=schemas.Location)
 def add_location(location: schemas.LocationCreate, db: Session = Depends(get_db)):
     db_location = crud.create_location(db=db, location=location)
     if db_location:
