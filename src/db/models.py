@@ -22,7 +22,7 @@ class Location(Base):
     # Address information
     street1 = Column(String)
     street2 = Column(String)
-    city = Column(String, nullable=False)
+    city = Column(String)
     state = Column(String, nullable=False)
     country = Column(String, nullable=False)
     postalcode = Column(String)

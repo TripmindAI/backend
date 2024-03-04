@@ -11,7 +11,6 @@ class RecommendationParameters(BaseModel):
 
 class LocationBase(BaseModel):
     name: str = Field(min_length=1, max_length=100)
-    city: str = Field(min_length=3, max_length=30)
     state: str = Field(min_length=3, max_length=30)
     country: str = Field(min_length=3, max_length=60)
     
@@ -26,6 +25,8 @@ class LocationBase(BaseModel):
 
 
 class LocationCreate(LocationBase):
+
+    city: str | None =  Field(default=None, min_length=3, max_length=30)
     description: str | None = Field(default=None, max_length=200)
 
 
