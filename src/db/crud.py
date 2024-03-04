@@ -11,10 +11,6 @@ def get_location_by_location_id(db: Session, location_id: str):
     )
 
 
-def get_location_by_id(db: Session, id: int):
-    return db.query(models.Location).filter(models.Location.id == id).first()
-
-
 def get_location_by_name(db: Session, name: str):
     return db.query(models.Location).filter(models.Location.name == name).first()
 
