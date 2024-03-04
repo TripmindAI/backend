@@ -1,7 +1,7 @@
 # app/routers/openai_router.py
 from fastapi import APIRouter, HTTPException
 from ..services.openai_chat_service import fetch_recommedations
-from schemas import RecommendationParameters
+from ..schemas import RecommendationParameters
 
 router = APIRouter()
 
