@@ -6,24 +6,27 @@ class RecommendationParameters(BaseModel):
     people: str
     how_spend: str
 
+
 class LocationBase(BaseModel):
-    location_id: str
-    name: str
+    name: str = Field(min_length=1, max_length=100)
+    city: str = Field(min_length=3, max_length=30)
+    state: str = Field(min_length=3, max_length=30)
+    country: str = Field(min_length=3, max_length=30)
+
 
 class LocationCreate(LocationBase):
-    description: str = ""
+    description: str | None = Field(default=None, max_length=200)
+
 
 class Location(LocationBase):
     id: int
+    location_id: str
     web_url: str
     is_active: bool
 
     # Address information
     street1: str
     street2: str
-    city: str
-    state: str
-    country: str
     postalcode: str
 
     # Location data
@@ -33,5 +36,3 @@ class Location(LocationBase):
 
     class Config:
         orm_mode = True
-
-        
