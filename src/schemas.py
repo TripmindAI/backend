@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field, validator
 import pycountry
 from zoneinfo import ZoneInfo, available_timezones
+from uuid import UUID
+from datetime import datetime
 
 
 class RecommendationParameters(BaseModel):
@@ -13,7 +15,7 @@ class LocationBase(BaseModel):
     name: str = Field(min_length=1, max_length=100)
     state: str = Field(min_length=3, max_length=30)
     country: str = Field(min_length=3, max_length=60)
-    
+
     @validator("country")
     def country_exists(cls, v):
         try:
@@ -23,35 +25,40 @@ class LocationBase(BaseModel):
         return v
 
 
-
 class LocationCreate(LocationBase):
 
-    city: str | None =  Field(default=None, min_length=3, max_length=30)
-    description: str | None = Field(default=None, max_length=200)
+    city: str | None = Field(default=None, min_length=3, max_length=30)
+    description: str | None = Field(default=None, max_length=500)
 
 
 class Location(LocationBase):
+    city: str | None = Field(default=None, min_length=3, max_length=30)
+    description: str | None = Field(default=None, max_length=500)
     id: int
-    location_id: str
-    web_url: str
+    location_id: UUID
+    web_url: str | None = None
     is_active: bool
-    create_at: str
+    create_at: datetime
 
     # Address information
-    street1: str
-    street2: str
-    postalcode: str
+    street1: str | None = None
+    street2: str | None = None
+    postalcode: str | None = None
 
     # Location data
-    latitude: float = Field(ge=-90, le=90)
-    longitude: float = Field(ge=-180, le=180)
-    timezone: str
+    latitude: float | None = Field(default=None, ge=-90, le=90)
+    longitude: float | None = Field(default=None, ge=-180, le=180)
+    timezone: str | None = None
 
     @validator("timezone")
     def timezone_exists(cls, v):
-        if v not in available_timezones():
+        if v and v not in available_timezones():
             raise ValueError(f"{v} is not a valid timezone")
         return v
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+        json_encoders = {
+            UUID: lambda v: str(v),  # Convert UUID to str when serializing to JSON
+            datetime: lambda v: v.isoformat(),  # Ensure datetime is ISO-formatted string
+        }
