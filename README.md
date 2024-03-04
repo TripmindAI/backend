@@ -10,6 +10,12 @@ Run uvicorn server on your local machine.
 uvicorn src.main:app --reload
 ```
 
+## Commit and Push
+Whenever you're ready to push your commits, don't forget update python dependencies `requirement.txt`
+```bash
+pip freeze > requirements.txt
+```
+
 Add `/doc` at the end of url then you can test backend apis.
 
 ## Database Migration
