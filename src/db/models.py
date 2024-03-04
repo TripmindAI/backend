@@ -14,7 +14,7 @@ class Location(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     location_id = Column(UUID(as_uuid=True), unique=True, index=True, nullable=False, default=uuid.uuid4)
     name = Column(String, index = True, nullable=False)
-    create_at = Column(DateTime(timezone=True), server_default=func.now())
+    create_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     web_url = Column(String)
     is_active = Column(Boolean, default=True)
     description = Column(String)
