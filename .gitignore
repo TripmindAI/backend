@@ -1,3 +1,4 @@
 *.pyc
 certificate.crt
 publickey.pem
+.env
