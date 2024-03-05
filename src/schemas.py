@@ -54,8 +54,18 @@ class LocationBase(BaseModel):
 
 class LocationCreate(LocationBase):
 
+    web_url: str | None = None
+    
     city: str | None = Field(default=None, min_length=3, max_length=30)
     description: str | None = Field(default=None, max_length=500)
+    street1: str | None = None
+    street2: str | None = None
+    postalcode: str | None = None
+
+    # Location data
+    latitude: float | None = Field(default=None, ge=-90, le=90)
+    longitude: float | None = Field(default=None, ge=-180, le=180)
+    timezone: str | None = None
 
 
 class Location(LocationBase):
