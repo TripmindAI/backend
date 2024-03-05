@@ -39,7 +39,7 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(UUID(as_uuid=True), unique=True, index=True， nullable=False, default=uuid.uuid4)
+    user_id = Column(UUID(as_uuid=True), unique=True, index=True, nullable=False, default=uuid.uuid4)
     user_name = Column(String, index=True, nullable=False)
     profile_picture_url = Column(String)
     auth0_sub = Column(String, nullable=False)
