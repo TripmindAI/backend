@@ -3,7 +3,7 @@ from authlib.jose import errors
 from fastapi import Depends, HTTPException
 from ..dependencies.token_dependencies import get_token
 import os
-
+from dotenv import load_dotenv, find_dotenv
 from fastapi import Depends, HTTPException
 
 
@@ -12,6 +12,8 @@ token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InI4V3F2RDlLLTJ4azlHYnRiUHV
 
 
 def read_public_key():
+    dotenv_path = find_dotenv()
+    load_dotenv(dotenv_path)
     public_key_path = os.getenv("PUBLIC_KEY_PATH")
     if not public_key_path:
         raise ValueError("Public key path is not set")
@@ -35,7 +37,7 @@ def decode_and_verify_token(token: str = Depends(get_token)):
 
 def parse_clains(claims):
     return {
-        "username": claims["username"],
+        "username": claims["name"],
         "email": claims["email"],
         "given_name": claims["given_name"],
         "family_name": claims["family_name"],
