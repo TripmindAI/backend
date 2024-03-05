@@ -32,7 +32,7 @@ def decode_and_verify_token(token: str = Depends(get_token)):
     except errors.JoseError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-def parse_clains(claims):
+def parse_claims(claims):
     return {
         "username": claims["name"],
         "email": claims["email"],
