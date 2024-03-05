@@ -29,14 +29,9 @@ def decode_and_verify_token(token: str = Depends(get_token)):
         claims = jwt.decode(token, public_key)
         
         claims.validate()
-        print(claims)
         return claims
-    except errors.DecodeError as e:
+    except errors.JoseError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except errors.BadSignatureError:
-        raise HTTPException(status_code=400, detail="Could not validate credentials")
-    except errors.ExpiredTokenError:
-        raise HTTPException(status_code=400, detail="Token has expired")
 
 def parse_clains(claims):
     return {
