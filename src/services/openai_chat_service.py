@@ -2,9 +2,10 @@
 from httpx import AsyncClient
 import json
 from ..schemas import RecommendationParameters
+from ..utils.file_utils import get_env_key
 
 
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = get_env_key("OPENAI_API_KEY")
 
 
 headers = {
@@ -25,8 +26,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
                     "role": "system",
                     "content": """
                                     You are a tour guide. Please provide us with some recommendations for visiting different cities. 
-                                    Users will provide you with the name of a city. Please provide your suggestions for a minimum of 3 
-                                    and a maximum of 5 different sites in this city, using JSON format. Additionally, please include a 
+                                    Users will provide you with the name of a city. Please provide your suggestions for 3 different sites in this city, using JSON format. Additionally, please include a 
                                     two-sentences description for each site along with its name.
 
                                     Please use the following format (Your response will be directly used as an API response, directly fed 

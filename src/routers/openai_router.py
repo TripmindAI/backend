@@ -5,7 +5,7 @@ from ..schemas import RecommendationParameters
 
 router = APIRouter()
 
-@router.post("/generate-recommedations/")
+@router.post("/recommedations/")
 async def get_recommendation(parameters: RecommendationParameters):
     try:
         recommendation = await fetch_recommedations(parameters)

@@ -11,7 +11,7 @@ import json
 router = APIRouter()
 
 
-@router.get("/fetch-images/")
+@router.get("/images/")
 async def get_maps_image(
     place: Annotated[
         str, Query(min_length=3, max_length=40, description="The name of the place")

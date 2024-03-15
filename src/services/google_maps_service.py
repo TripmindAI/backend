@@ -1,8 +1,8 @@
 from httpx import AsyncClient
-
+from ..utils.file_utils import get_env_key
 import json
 
-GOOGLE_MAPS_API_KEY = "AIzaSyBfC5SKOMS1RubFSJt2G5kh01CwwgH_1-k"
+GOOGLE_MAPS_API_KEY = get_env_key("GOOGLE_MAPS_API_KEY")
 
 
 async def fetch_place_ids(place: str):

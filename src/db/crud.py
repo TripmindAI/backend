@@ -27,3 +27,18 @@ def create_location(db: Session, location: schemas.LocationCreate):
     db.refresh(db_location)
     db.refresh(db_location)
     return db_location
+
+
+def get_user_by_auth0_sub(db: Session, auth0_sub: str):
+    return db.query(models.User).filter(models.User.auth0_sub == auth0_sub).first()
+
+def upsert_user(db: Session, user: schemas.UserCreate):
+
+    db_user = get_user_by_auth0_sub(db, user.auth0_sub)
+    if not db_user:
+        db_user = models.User(**user.model_dump())
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+    return db_user
+
