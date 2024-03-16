@@ -85,9 +85,9 @@ user_likes_locations = Table(
     Column(
         "user_id",
         UUID(as_uuid=True),
-        ForeignKey("users.id"),
+        ForeignKey("users.user_id"),
         primary_key=True,
         index=True,
     ),
-    Column("location_id", UUID(as_uuid=True), ForeignKey("locations.id")),
+    Column("location_id", UUID(as_uuid=True), ForeignKey("locations.location_id")),
 )
