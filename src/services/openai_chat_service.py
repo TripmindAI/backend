@@ -21,7 +21,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
     pronoun = "I" if parameters.people == "solo" else "We"
     payload = json.dumps(
         {
-            "model": "gpt-3.5-turbo",
+            "model": "gpt-4",
             "messages": [
                 {
                     "role": "system",
@@ -60,7 +60,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
                 },
             ],
             "temperature": 1,
-            "max_tokens": 4095,
+            "max_tokens": 8190,
             "top_p": 1,
             "frequency_penalty": 0,
             "presence_penalty": 0,
