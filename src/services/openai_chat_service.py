@@ -21,7 +21,8 @@ async def fetch_recommedations(parameters: RecommendationParameters):
     pronoun = "I" if parameters.people == "solo" else "We"
     payload = json.dumps(
         {
-            "model": "gpt-4-turbo-preview",
+            "model": "gpt-3.5-turbo-0125",
+            "response_format": { "type": "json_object" },
             "messages": [
                 {
                     "role": "system",
