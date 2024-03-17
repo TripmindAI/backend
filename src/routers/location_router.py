@@ -71,3 +71,15 @@ def toggle_like_location(location_id: str, token: str, db: Session = Depends(get
         return {"status": "unliked"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
+@router.get("/location/liked/")
+def get_liked_locations_for_user(token: str, db: Session = Depends(get_db)):
+    try:
+        claims = parse_claims(decode_and_verify_token(token))
+        auth0_sub = claims["sub"]
+        user_id = crud.get_user_id_by_auth0_sub(db, auth0_sub)
+        liked_locations = crud.get_liked_locations_for_user(db, user_id)
+        return liked_locations
+    except Exception as e:
+        return {"status": "error", "message": str(e)}

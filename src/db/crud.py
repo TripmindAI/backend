@@ -75,3 +75,12 @@ def toggle_like_location(db: Session, user_id: str, location_id: str):
             )
         )
         db.commit()
+
+
+def get_liked_locations_for_user(db: Session, user_id: str):
+    return (
+        db.query(models.Location)
+        .join(models.user_likes_locations)
+        .filter(models.user_likes_locations.c.user_id == user_id)
+        .all()
+    )
