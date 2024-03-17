@@ -20,12 +20,22 @@ headers = {
 
 
 async def fetch_recommedations(parameters: RecommendationParameters):
+
+    openai_parameters = {
+        "model": "gpt-3.5-turbo",
+        "temperature": 1,
+        "max_tokens": 1000,
+        "top_p": 1,
+        "frequency_penalty": 0,
+        "presence_penalty": 0,
+
+    }
     OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions"
     verb = "am" if parameters.people == "solo" else "are"
     pronoun = "I" if parameters.people == "solo" else "We"
     payload = json.dumps(
         {
-            "model": "gpt-3.5-turbo",
+            "model": openai_parameters["model"],
             "messages": [
                 {
                     "role": "system",
@@ -64,11 +74,11 @@ async def fetch_recommedations(parameters: RecommendationParameters):
                     "content": f"{pronoun} {verb} planning to visit {parameters.city} and prefer {parameters.how_spend} attractions.",
                 },
             ],
-            "temperature": 1,
-            "max_tokens": 256,
-            "top_p": 1,
-            "frequency_penalty": 0,
-            "presence_penalty": 0,
+            "temperature": openai_parameters["temperature"],
+            "max_tokens": openai_parameters["max_tokens"],
+            "top_p": openai_parameters["top_p"],
+            "frequency_penalty": openai_parameters["frequency_penalty"],
+            "presence_penalty": openai_parameters["presence_penalty"],
         }
     )
 
