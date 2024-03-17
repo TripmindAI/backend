@@ -15,12 +15,13 @@ headers = {
 
 
 async def fetch_recommedations(parameters: RecommendationParameters):
-    OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions"
+    # OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions"
+    OPENAI_ENDPOINT = "https://gateway.ai.cloudflare.com/v1/29dcd52eab6f2de2b544e6b9d8c55dc1/tripmind-openai/openai/chat/completions"
     verb = "am" if parameters.people == "solo" else "are"
     pronoun = "I" if parameters.people == "solo" else "We"
     payload = json.dumps(
         {
-            "model": "gpt-3.5-turbo",
+            "model": "gpt-4-turbo-preview",
             "messages": [
                 {
                     "role": "system",
@@ -59,14 +60,14 @@ async def fetch_recommedations(parameters: RecommendationParameters):
                 },
             ],
             "temperature": 1,
-            "max_tokens": 256,
+            "max_tokens": 4095,
             "top_p": 1,
             "frequency_penalty": 0,
             "presence_penalty": 0,
         }
     )
 
-    async with AsyncClient() as client:
+    async with AsyncClient(timeout=30.0) as client:
         response = await client.post(
             OPENAI_ENDPOINT,
             headers=headers,

@@ -38,3 +38,7 @@ Finally, use the following command to apply your migraion to database.
 ```bash
 alembic upgrade head
 ```
+
+## Get the test token
+
+https://manage.auth0.com/dashboard/us/tripmindai/apis/65e3b879e5f3ceca8ed7e227/test
