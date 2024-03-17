@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import APIRouter, HTTPException, Query, status, Depends
 
-from utils.jwt_utils import decode_and_verify_token, parse_claims
+from ..utils.jwt_utils import decode_and_verify_token, parse_claims
 from .. import schemas
 from ..db import crud
 from sqlalchemy.orm import Session
