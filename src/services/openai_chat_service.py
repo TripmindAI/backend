@@ -18,18 +18,18 @@ headers = {
     "Authorization": f"Bearer {OPENAI_API_KEY}",
 }
 
+openai_parameters = {
+    "model": "gpt-3.5-turbo",
+    "temperature": 1,
+    "max_tokens": 1000,
+    "top_p": 1,
+    "frequency_penalty": 0,
+    "presence_penalty": 0,
+
+}
 
 async def fetch_recommedations(parameters: RecommendationParameters):
 
-    openai_parameters = {
-        "model": "gpt-3.5-turbo",
-        "temperature": 1,
-        "max_tokens": 1000,
-        "top_p": 1,
-        "frequency_penalty": 0,
-        "presence_penalty": 0,
-
-    }
     OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions"
     verb = "am" if parameters.people == "solo" else "are"
     pronoun = "I" if parameters.people == "solo" else "We"
