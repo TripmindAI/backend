@@ -30,7 +30,8 @@ openai_parameters = {
 
 async def fetch_recommedations(parameters: RecommendationParameters):
 
-    OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions"
+    # OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions"
+    OPENAI_ENDPOINT = "https://gateway.ai.cloudflare.com/v1/29dcd52eab6f2de2b544e6b9d8c55dc1/tripmind-openai/openai/chat/completions"
     verb = "am" if parameters.people == "solo" else "are"
     pronoun = "I" if parameters.people == "solo" else "We"
     payload = json.dumps(
@@ -74,6 +75,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
                     "content": f"{pronoun} {verb} planning to visit {parameters.city} and prefer {parameters.how_spend} attractions.",
                 },
             ],
+          
             "temperature": openai_parameters["temperature"],
             "max_tokens": openai_parameters["max_tokens"],
             "top_p": openai_parameters["top_p"],
@@ -82,7 +84,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
         }
     )
 
-    async with AsyncClient() as client:
+    async with AsyncClient(timeout=30.0) as client:
         response = await client.post(
             OPENAI_ENDPOINT,
             headers=headers,
