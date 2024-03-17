@@ -1,6 +1,15 @@
 # SQLAlchemy models
 
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, DateTime
+from sqlalchemy import (
+    Boolean,
+    Column,
+    ForeignKey,
+    Integer,
+    String,
+    Float,
+    DateTime,
+    Table,
+)
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
@@ -10,13 +19,18 @@ from ..utils.enums import UserRole, UserStatus
 
 from .database import Base
 
+
 class Location(Base):
     __tablename__ = "locations"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    location_id = Column(UUID(as_uuid=True), unique=True, index=True, nullable=False, default=uuid.uuid4)
-    name = Column(String, index = True, nullable=False)
-    create_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    location_id = Column(
+        UUID(as_uuid=True), unique=True, index=True, nullable=False, default=uuid.uuid4
+    )
+    name = Column(String, index=True, nullable=False)
+    create_at = Column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
     web_url = Column(String)
     is_active = Column(Boolean, default=True)
     description = Column(String)
@@ -34,22 +48,46 @@ class Location(Base):
     longitude = Column(Float)
     timezone = Column(String)
 
+    liked_by = relationship(
+        "User", secondary="user_likes_locations", back_populates="liked_locations"
+    )
+
 
 class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(UUID(as_uuid=True), unique=True, index=True, nullable=False, default=uuid.uuid4)
+    user_id = Column(
+        UUID(as_uuid=True), unique=True, index=True, nullable=False, default=uuid.uuid4
+    )
     user_name = Column(String, index=True, nullable=False)
     profile_picture_url = Column(String)
     auth0_sub = Column(String, nullable=False)
     email = Column(String, nullable=False)
     given_name = Column(String, nullable=False)
     family_name = Column(String, nullable=False)
-    create_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    create_at = Column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
     updated_at = Column(DateTime(timezone=True), nullable=False)
     status = Column(ENUM(UserStatus), default=UserStatus.ACTIVE, nullable=False)
     role = Column(ENUM(UserRole), default=UserRole.FREE, nullable=False)
     last_login = Column(DateTime(timezone=True), nullable=False)
 
+    liked_locations = relationship(
+        "Location", secondary="user_likes_locations", back_populates="liked_by"
+    )
 
+
+user_likes_locations = Table(
+    "user_likes_locations",
+    Base.metadata,
+    Column(
+        "user_id",
+        UUID(as_uuid=True),
+        ForeignKey("users.user_id"),
+        primary_key=True,
+        index=True,
+    ),
+    Column("location_id", UUID(as_uuid=True), ForeignKey("locations.location_id")),
+)
