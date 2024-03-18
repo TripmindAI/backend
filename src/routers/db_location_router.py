@@ -5,7 +5,7 @@ from ..db import crud
 from sqlalchemy.orm import Session
 from ..db.database import SessionLocal
 from ..dependencies.database_dependencies import get_db
-from fastpi.responses import JSONResponse
+from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
