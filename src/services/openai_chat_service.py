@@ -3,6 +3,7 @@ from httpx import AsyncClient
 import json
 from ..schemas import RecommendationParameters
 from ..utils.file_utils import get_env_key
+from fastapi.responses import JSONResponse
 
 
 OPENAI_API_KEY = get_env_key("OPENAI_API_KEY")
@@ -22,7 +23,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
     payload = json.dumps(
         {
             "model": "gpt-3.5-turbo-0125",
-            "response_format": { "type": "json_object" },
+            "response_format": {"type": "json_object"},
             "messages": [
                 {
                     "role": "system",
@@ -76,6 +77,9 @@ async def fetch_recommedations(parameters: RecommendationParameters):
         )
 
     # Raise an exception if the call fails
-    response.raise_for_status()
 
-    return response.json()
+    try:
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        return JSONResponse(status_code=response.status_code, content=response.json())

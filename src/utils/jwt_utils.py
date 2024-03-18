@@ -4,6 +4,7 @@ from fastapi import Depends, HTTPException
 from ..dependencies.token_dependencies import get_token
 from fastapi import Depends, HTTPException
 from .file_utils import get_env_key
+from fastapi.responses import JSONResponse
 
 
 ALGORITHMS = ["RS256"]
@@ -11,7 +12,9 @@ ALGORITHMS = ["RS256"]
 def read_public_key():
     public_key_path = get_env_key("PUBLIC_KEY_PATH")
     if not public_key_path:
-        raise ValueError("Public key path is not set")
+        return JSONResponse(
+            status_code=400, content={"message": "Public key path is not set"}
+        )
 
     with open(public_key_path, "r") as file:
         return file.read()
@@ -25,7 +28,9 @@ def decode_and_verify_token(token: str = Depends(get_token)):
         claims.validate()
         return claims
     except errors.JoseError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        return JSONResponse(
+            status_code=400, content={"message": f"Token is not valid: {e}"}
+        )
 
 def parse_claims(claims):
     return {

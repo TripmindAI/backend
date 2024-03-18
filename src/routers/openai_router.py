@@ -2,6 +2,7 @@
 from fastapi import APIRouter, HTTPException
 from ..services.openai_chat_service import fetch_recommedations
 from ..schemas import RecommendationParameters
+from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
@@ -11,6 +12,6 @@ async def get_recommendation(parameters: RecommendationParameters):
         recommendation = await fetch_recommedations(parameters)
         return recommendation
     except HTTPException as e:
-        raise HTTPException(
-            status_code=recommendation.status_code, detail=recommendation.json()
+        return JSONResponse(
+            status_code=e.status_code, content=e.detail
         )
