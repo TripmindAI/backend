@@ -20,6 +20,9 @@ async def get_maps_image(
     try:
 
         place_id = json.loads(await fetch_place_ids(place))["places"][0]["id"]
+        #if no photos found, return placeholder image
+        if "photos" not in json.loads(await fetch_photo_ids(place_id)):
+            return {"img_redirect_url": "https://placehold.co/600x400/000000/FFF?text=TripMind\nNo+Image+Found&font=Playfair%20Display"}
         photo_id = json.loads(await fetch_photo_ids(place_id))["photos"][0]["name"]
         image_url = await fetch_photo_url(photo_id)
 
