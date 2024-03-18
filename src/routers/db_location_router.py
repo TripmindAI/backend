@@ -5,6 +5,7 @@ from ..db import crud
 from sqlalchemy.orm import Session
 from ..db.database import SessionLocal
 from ..dependencies.database_dependencies import get_db
+from fastpi.responses import JSONResponse
 
 router = APIRouter()
 
@@ -15,18 +16,18 @@ def add_location(location: schemas.LocationCreate, db: Session = Depends(get_db)
     db_location = crud.get_location_by_name(db, location.name)
     if db_location:
         # If the location exists, raise a 400 Bad Request exception.
-        raise HTTPException(
+        return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Location {location.name} already exists.",
+            content={"message": "Location already exists."}
         )
 
     # Try to create the location since it doesn't exist.
     db_location = crud.create_location(db=db, location=location)
     if not db_location:
         # If the location couldn't be created for some reason, raise a 400 Bad Request exception.
-        raise HTTPException(
+        return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Location could not be created.",
+            content={"message": "Location couldn't be created."}
         )
     # If the location was successfully created, return it.
     return db_location
@@ -37,8 +38,9 @@ def get_location(location_id: str, db: Session = Depends(get_db)):
     db_location = crud.get_location_by_location_id(db, location_id)
     if db_location:
         return db_location
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND, detail="Location not found"
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"message": "Location not found."}
     )
 
 
@@ -52,6 +54,7 @@ def get_location(
     db_location = crud.get_location_by_name(db=db, name=place)
     if db_location:
         return db_location
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND, detail="Location not found"
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"message": "Location not found."}
     )
