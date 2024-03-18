@@ -6,7 +6,7 @@ name: Build and deploy container app to Azure Web App - TripmindAPI
 on:
   push:
     branches:
-      - main
+      - prodcution
   workflow_dispatch:
 
 jobs:
