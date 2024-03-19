@@ -62,7 +62,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
                 },
             ],
             "temperature": 1,
-            "max_tokens": 10000,
+            "max_tokens": 4095,
             "top_p": 1,
             "frequency_penalty": 0,
             "presence_penalty": 0,
