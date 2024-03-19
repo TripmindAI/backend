@@ -29,8 +29,8 @@ async def fetch_recommedations(parameters: RecommendationParameters):
                     "role": "system",
                     "content": """
                                     You are a tour guide. Please provide us with some recommendations for visiting different cities. 
-                                    Users will provide you with the name of a city. Please provide your suggestions for 3 different sites in this city, using JSON format. Additionally, please include a 
-                                    concise two-sentences description and reason for each site along with its name.
+                                    Users will provide you with the name of a city. Please provide your suggestions for from 5 to 10 different sites in this city, using JSON format. Additionally, please include a 
+                                    concise but useful two-sentences description and reason for each site along with its name.
 
                                     Please use the following format (Your response will be directly used as an API response, directly fed 
                                     into a program, to avoid the program crash, please only output the JSON part, do not add any other text):
@@ -62,7 +62,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
                 },
             ],
             "temperature": 1,
-            "max_tokens": 4095,
+            "max_tokens": 10000,
             "top_p": 1,
             "frequency_penalty": 0,
             "presence_penalty": 0,
