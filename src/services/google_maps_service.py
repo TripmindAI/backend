@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from httpx import AsyncClient
 from ..utils.file_utils import get_env_key
 import json
@@ -27,7 +28,7 @@ async def fetch_place_ids(place: str):
         data = response.read()
         return data.decode("utf-8")
     except Exception as e:
-        return None
+        raise HTTPException(status_code=404, detail="No place found")
 
 
 async def fetch_photo_ids(place_id: str):
@@ -49,7 +50,7 @@ async def fetch_photo_ids(place_id: str):
         data = response.read()
         return data.decode("utf-8")
     except Exception as e:
-        return None
+        raise HTTPException(status_code=404, detail="No image found")
 
 
 async def fetch_photo_url(photo_id: str):
@@ -69,4 +70,4 @@ async def get_redirect_url(url: str):
         if response.status_code in (301, 302, 303, 307, 308):
             return {"img_redirect_url": response.headers.get("Location")}
         else:
-            return {"img_redirect_url": "https://placehold.co/600x400/000000/FFF?text=TripMind\nNo+Image+Found&font=Playfair%20Display"}
+            raise HTTPException(status_code=404, detail="Cannot redirect image URL")
