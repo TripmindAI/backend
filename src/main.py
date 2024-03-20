@@ -1,7 +1,10 @@
 # app/main.py
+from dotenv import find_dotenv, load_dotenv
 from fastapi import FastAPI
 from .routers import google_maps_router, openai_router, db_location_router, account_rounter
 
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path, override=True)
 app = FastAPI()
 
 #Include the routers from the routers folder
