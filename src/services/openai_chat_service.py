@@ -16,13 +16,13 @@ headers = {
 
 
 async def fetch_recommedations(parameters: RecommendationParameters):
-    # OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions"
-    OPENAI_ENDPOINT = "https://gateway.ai.cloudflare.com/v1/29dcd52eab6f2de2b544e6b9d8c55dc1/tripmind-openai/openai/chat/completions"
+    OPENAI_ENDPOINT = "https://api.ohmygpt.com/v1/chat/completions"
+    # OPENAI_ENDPOINT = "https://gateway.ai.cloudflare.com/v1/29dcd52eab6f2de2b544e6b9d8c55dc1/tripmind-openai/openai/chat/completions"
     verb = "am" if parameters.people == "solo" else "are"
     pronoun = "I" if parameters.people == "solo" else "We"
     payload = json.dumps(
         {
-            "model": "gpt-3.5-turbo-0125",
+            "model": "gpt-4-0125-preview",
             "response_format": {"type": "json_object"},
             "messages": [
                 {
@@ -69,7 +69,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
         }
     )
 
-    async with AsyncClient(timeout=30.0) as client:
+    async with AsyncClient(timeout=60.0) as client:
         response = await client.post(
             OPENAI_ENDPOINT,
             headers=headers,
@@ -82,4 +82,7 @@ async def fetch_recommedations(parameters: RecommendationParameters):
         response.raise_for_status()
         return response.json()
     except Exception as e:
-        return JSONResponse(status_code=response.status_code, content=response.json())
+        response_data = e.response.json()
+        status_code = response_data.pop("statusCode", 400)
+        return JSONResponse(content=response_data, status_code=status_code)
+
