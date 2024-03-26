@@ -16,13 +16,14 @@ headers = {
 
 
 async def fetch_recommedations(parameters: RecommendationParameters):
-    OPENAI_ENDPOINT = "https://api.ohmygpt.com/v1/chat/completions"
-    # OPENAI_ENDPOINT = "https://gateway.ai.cloudflare.com/v1/29dcd52eab6f2de2b544e6b9d8c55dc1/tripmind-openai/openai/chat/completions"
+    # OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions"
+    # OPENAI_ENDPOINT = "https://api.ohmygpt.com/v1/chat/completions"
+    OPENAI_ENDPOINT = "https://gateway.ai.cloudflare.com/v1/29dcd52eab6f2de2b544e6b9d8c55dc1/tripmind-openai/openai/chat/completions"
     verb = "am" if parameters.people == "solo" else "are"
     pronoun = "I" if parameters.people == "solo" else "We"
     payload = json.dumps(
         {
-            "model": "gpt-4-0125-preview",
+            "model": "gpt-3.5-turbo-0125",
             "response_format": {"type": "json_object"},
             "messages": [
                 {
