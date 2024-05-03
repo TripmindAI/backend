@@ -20,7 +20,7 @@ headers = {
 
 async def fetch_recommedations(parameters: RecommendationParameters):
 
-    GEMINI_ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key={GEMINI_API_KEY}"
+    GEMINI_ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key={GEMINI_API_KEY}"
     verb = "am" if parameters.people == "solo" else "are"
     pronoun = "I" if parameters.people == "solo" else "We"
     payload = json.dumps(
